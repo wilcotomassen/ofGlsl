@@ -10,9 +10,7 @@ void ofApp::draw() {
 
 	shader.begin();
 	shader.setUniform2f("u_resolution", ofVec2f(ofGetWidth(), ofGetHeight()));
-	shader.setUniform2f("u_mousepos", ofVec2f(
-		(float) ofGetMouseX() / (float) ofGetWidth(), 
-		1.0 - (float) ofGetMouseY() / (float) ofGetHeight()));
+	shader.setUniform2f("u_mousepos", ofVec2f((float) ofGetMouseX(), 1.0 - (float) ofGetMouseY()));
 	shader.setUniform1f("u_time", ofGetElapsedTimef());
 
 	ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
