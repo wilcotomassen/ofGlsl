@@ -8,6 +8,7 @@ out vec4 outputColor;
 
 uniform vec2 u_resolution;
 uniform vec2 u_mousepos;
+uniform float u_time;
 
 float plot(vec2 pos, float pct){
 	return smoothstep(pct - STEP_SMOOTH_OFFSET, pct, pos.y) -
@@ -20,8 +21,8 @@ void main() {
 	vec2 normPos = gl_FragCoord.xy / u_resolution;
 
 	// Set y to x (creating a diagonal)
-	float fence = 0.5 + sin(normPos.x * TWO_PI) * 0.5;
-	float fenceB = 0.5 + cos(normPos.x * TWO_PI) * 0.5;
+	float fence = 0.5 + sin(u_time + normPos.x * TWO_PI) * 0.5;
+	float fenceB = 0.5 + cos(u_time + normPos.x * TWO_PI) * 0.5;
 
 	// Assign the base color (by default a gradient over y)
 	vec3 color = vec3(fence);

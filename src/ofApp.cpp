@@ -1,7 +1,7 @@
 #include "ofApp.h"
 
 void ofApp::setup() {
-	shader.load("myshader/myshader"); 
+	shader.load("myshader/myshader");
 }
 
 void ofApp::update() {}
@@ -13,6 +13,7 @@ void ofApp::draw() {
 	shader.setUniform2f("u_mousepos", ofVec2f(
 		(float) ofGetMouseX() / (float) ofGetWidth(), 
 		1.0 - (float) ofGetMouseY() / (float) ofGetHeight()));
+	shader.setUniform1f("u_time", ofGetElapsedTimef());
 
 	ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
 	shader.end();
