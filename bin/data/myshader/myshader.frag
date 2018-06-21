@@ -1,13 +1,17 @@
 #version 150
 
+#define STEP_SMOOTH_OFFSET 0.01
+#define PI 3.14
+#define TWO_PI PI * 2
+
 out vec4 outputColor;
 
 uniform vec2 u_resolution;
 uniform vec2 u_mousepos;
 
 float plot(vec2 pos, float pct){
-	return smoothstep(pct - 0.02, pct, pos.y) -
-		smoothstep(pct, pct + 0.02, pos.y);
+	return smoothstep(pct - STEP_SMOOTH_OFFSET, pct, pos.y) -
+		smoothstep(pct, pct + STEP_SMOOTH_OFFSET, pos.y);
 }
 
 void main() {
@@ -16,14 +20,20 @@ void main() {
 	vec2 normPos = gl_FragCoord.xy / u_resolution;
 
 	// Set y to x (creating a diagonal)
-	float y = normPos.x;
+	float fence = 0.5 + sin(normPos.x * TWO_PI) * 0.5;
+	float fenceB = 0.5 + cos(normPos.x * TWO_PI) * 0.5;
 
 	// Assign the base color (by default a gradient over y)
-	vec3 color = vec3(y);
+	vec3 color = vec3(fence);
 
 	// Adjust color based o position
-	float pct = plot(normPos, y);
+	float pct = plot(normPos, fence);
 	color = (1.0 - pct) * color + pct * vec3(0.0, 1.0, 0.0);
+
+	float pct2 = plot(normPos, fenceB);
+	color = (1.0 - pct2) * color + pct2 * vec3(1.0, 0.0, 0.0);
+
+
 
 	// Assign final colorn
 	outputColor = vec4(color,1.0);
